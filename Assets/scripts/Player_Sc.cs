@@ -13,7 +13,7 @@ public class Player_Sc : MonoBehaviour
     [SerializeField]
     private float firecooldown=5f , Normalcooldown; // Bir sonraki atýþ için bekleme süresi
     private Boolean vur=true; // vur emri var mý yok mu
-
+   
     // Start is called before the first frame update
     void Start()
     {
@@ -63,6 +63,7 @@ public class Player_Sc : MonoBehaviour
         {
             Debug.Log("GAME OVER");
             Destroy(gameObject);
+            
         }
 
     }
