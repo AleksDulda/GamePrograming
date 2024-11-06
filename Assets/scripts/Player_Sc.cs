@@ -13,6 +13,8 @@ public class Player_Sc : MonoBehaviour
     [SerializeField]
     private float firecooldown=5f , Normalcooldown; // Bir sonraki atýþ için bekleme süresi
     private Boolean vur=true; // vur emri var mý yok mu
+    
+    public GameObject LazerCon;
    
     // Start is called before the first frame update
     void Start()
@@ -40,7 +42,7 @@ public class Player_Sc : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Space) && vur)
         {
-            Instantiate(laser, firePoint.position, Quaternion.identity);
+            Instantiate(laser, firePoint.position, Quaternion.identity).transform.parent=LazerCon.transform;
             firecooldown = Normalcooldown;
         }
 

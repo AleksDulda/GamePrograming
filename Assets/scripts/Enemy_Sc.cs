@@ -28,7 +28,7 @@ public class Enemy_Sc : MonoBehaviour
         }
         
     }
-    void OnTriggerEnter (Collider other) //temasa giren
+    void OnTriggerEnter2D (Collider2D other) //temasa giren
     {
         if(other.tag == "Player")
         {
