@@ -5,17 +5,20 @@ using UnityEngine;
 
 public class Player_Sc : MonoBehaviour
 {
-    
+
     public int Health = 3;
     public float speed; //hareket süresi
     public Transform firePoint; // Lazerin çýkýþ noktasý (namlu)
     public GameObject laser; //Lazer objesi
+    public GameObject TripleLaser;
     [SerializeField]
-    private float firecooldown=5f , Normalcooldown; // Bir sonraki atýþ için bekleme süresi
-    private Boolean vur=true; // vur emri var mý yok mu
-    
+    private float firecooldown = 5f, Normalcooldown; // Bir sonraki atýþ için bekleme süresi
+    private Boolean vur = true; // vur emri var mý yok mu
+
     public GameObject LazerCon;
-   
+
+    [SerializeField]
+    bool TripleShotActive = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -36,13 +39,24 @@ public class Player_Sc : MonoBehaviour
         {
             vur = true;
         }
+      
     }
 
     private void Ateset()
     {
         if (Input.GetKey(KeyCode.Space) && vur)
         {
-            Instantiate(laser, firePoint.position, Quaternion.identity).transform.parent=LazerCon.transform;
+            if (TripleShotActive)
+            {
+                Instantiate(TripleLaser, firePoint.position, Quaternion.identity).transform.parent = LazerCon.transform;
+                
+            }
+            else
+            {
+                Instantiate(laser, firePoint.position, Quaternion.identity).transform.parent = LazerCon.transform;
+            }
+           
+            
             firecooldown = Normalcooldown;
         }
 
@@ -69,4 +83,24 @@ public class Player_Sc : MonoBehaviour
         }
 
     }
+
+  
+
+    public void ActivateTripleShot()
+    {
+        TripleShotActive = true;  // Activate Triple Shot
+
+        //  5sn beklemesi için coroutine baþlat
+        StartCoroutine(DeactivateTripleShotAfterDelay(5f));
+    }
+
+    private IEnumerator DeactivateTripleShotAfterDelay(float delay)
+    {
+        // belirtilen süre kadar bekle
+        yield return new WaitForSeconds(delay);
+
+        // Deactivate Triple Shot
+        TripleShotActive = false;
+    }
+
 }

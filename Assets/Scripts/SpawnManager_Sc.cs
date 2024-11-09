@@ -13,35 +13,47 @@ public class SpawnManager_Sc : MonoBehaviour
 
     [SerializeField]
     GameObject enemyContainer;
+    [SerializeField]
+    GameObject TripleShotBonusPrefab;
 
 
     void Start()
+    {
+
+        player = GameObject.FindObjectOfType<Player_Sc>();
+        StartCoroutine(SpawnEnemyRoutine());
+        StartCoroutine(SpawnBonusRoutine());
+
+    }
+
+    void Update()
+    {
+
+      
+    }
+
+
+    IEnumerator SpawnEnemyRoutine()
+    {
+        while (player.Health > 0)
         {
 
-            player = GameObject.FindObjectOfType<Player_Sc>();
-            StartCoroutine(SpawnRoutine());
+            Vector3 position = new Vector3(Random.Range(-player.xVal, player.xVal), player.yVal + 2, 0);
+            GameObject new_enemy = Instantiate(enemyPrefab, position, Quaternion.identity);
+            new_enemy.transform.parent = enemyContainer.transform;
+            yield return new WaitForSeconds(5.0f);
+
+
 
         }
-
-        void Update()
+    }
+    IEnumerator SpawnBonusRoutine()
+    {
+        while (player.Health > 0)
         {
-
+            Vector3 position = new Vector3(Random.Range(-player.xVal, player.xVal), player.yVal + 2, 0);
+            Instantiate(TripleShotBonusPrefab, position, Quaternion.identity);
+            yield return new WaitForSeconds(5.0f);
         }
-
-
-        IEnumerator SpawnRoutine()
-        {
-            while (player.Health>0)
-            {
-         
-                Vector3 position = new Vector3(Random.Range(-player.xVal, player.xVal), player.yVal + 2, 0);
-                GameObject new_enemy = Instantiate(enemyPrefab, position, Quaternion.identity);
-                new_enemy.transform.parent = enemyContainer.transform;
-                yield return new WaitForSeconds(5.0f);
-
-
-
-            }
-        }   
-    
+    }
 }

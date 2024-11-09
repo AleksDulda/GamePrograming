@@ -293,8 +293,8 @@ Transform:
   m_GameObject: {fileID: 670964377}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.56, y: -0.42, z: -4.16}
-  m_LocalScale: {x: 1.0023, y: 0.9964, z: 1}
+  m_LocalPosition: {x: -0.028, y: -0.1116, z: -9.18}
+  m_LocalScale: {x: 0.9347098, y: 0.94240975, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -520,9 +520,11 @@ MonoBehaviour:
   speed: 5
   firePoint: {fileID: 325077707}
   laser: {fileID: 2195938008546379517, guid: 4fb23b0bcf5bef7449e0f131f49b7a63, type: 3}
+  TripleLaser: {fileID: 8694684390491839381, guid: 80ba1aee26a446c4085f393a6d7c0a09, type: 3}
   firecooldown: 5
   Normalcooldown: 0.3
   LazerCon: {fileID: 665054642}
+  TripleShotActive: 0
   xVal: 8.3
   yVal: 4.35
 --- !u!4 &1405108108
@@ -534,7 +536,7 @@ Transform:
   m_GameObject: {fileID: 1405108101}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -1.5, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -669,6 +671,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 4674742921862345609, guid: 450eec0cccd3bf645bf49e23240d5e8a, type: 3}
   enemyContainer: {fileID: 512838553}
+  TripleShotBonusPrefab: {fileID: 2209428397071907048, guid: 1d3e2cc4056cfe040aa7aeae88c08027, type: 3}
 --- !u!4 &1599683459
 Transform:
   m_ObjectHideFlags: 0
