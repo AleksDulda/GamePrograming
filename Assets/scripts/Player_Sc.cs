@@ -16,9 +16,12 @@ public class Player_Sc : MonoBehaviour
     private Boolean vur = true; // vur emri var mý yok mu
 
     public GameObject LazerCon;
+    float speedMultiplier = 2;
 
     [SerializeField]
     bool TripleShotActive = false;
+    [SerializeField]
+    bool SpeedBonusActive = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -84,16 +87,25 @@ public class Player_Sc : MonoBehaviour
 
     }
 
-  
 
+    Coroutine tripleshotCoroutine;
     public void ActivateTripleShot()
     {
-        TripleShotActive = true;  // Activate Triple Shot
+        if (TripleShotActive == false)
+        {
+            TripleShotActive = true;  // Activate Triple Shot
 
-        //  5sn beklemesi için coroutine baþlat
-        StartCoroutine(DeactivateTripleShotAfterDelay(5f));
+            //  5sn beklemesi için coroutine baþlat
+            StartCoroutine(DeactivateTripleShotAfterDelay(5f));
+        }
+        else if (tripleshotCoroutine != null)
+        {
+            StopCoroutine(tripleshotCoroutine);
+            TripleShotActive= false;
+            tripleshotCoroutine = StartCoroutine(DeactivateTripleShotAfterDelay(5f)); ;
+        }
     }
-
+    
     private IEnumerator DeactivateTripleShotAfterDelay(float delay)
     {
         // belirtilen süre kadar bekle
@@ -102,5 +114,34 @@ public class Player_Sc : MonoBehaviour
         // Deactivate Triple Shot
         TripleShotActive = false;
     }
+    Coroutine speedCoroutine;
+    public void ActivateSpeedBonus()
+    {
+        if(SpeedBonusActive == false)
+        {
+            SpeedBonusActive = true;  // Activate Triple Shot
 
+            speed = speed * speedMultiplier;
+
+            //  5sn beklemesi için coroutine baþlat
+            speedCoroutine = StartCoroutine(DeactivateSpeedBonusAfterDelay(5f));
+        }
+        else if(speedCoroutine!=null)
+        {
+            StopCoroutine(speedCoroutine);
+            SpeedBonusActive=false;
+            speedCoroutine = StartCoroutine(DeactivateSpeedBonusAfterDelay(5f)); ;
+        }
+       
+    }
+    private IEnumerator DeactivateSpeedBonusAfterDelay(float delay)
+    {
+        // belirtilen süre kadar bekle
+        yield return new WaitForSeconds(delay);
+
+        // Deactivate Triple Shot
+        SpeedBonusActive = false;
+        speed = speed / speedMultiplier;
+        speedCoroutine=null;
+    }
 }

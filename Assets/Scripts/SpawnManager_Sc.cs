@@ -15,6 +15,8 @@ public class SpawnManager_Sc : MonoBehaviour
     GameObject enemyContainer;
     [SerializeField]
     GameObject TripleShotBonusPrefab;
+    [SerializeField]
+    GameObject[] Bonusprefabs;
 
 
     void Start()
@@ -49,10 +51,13 @@ public class SpawnManager_Sc : MonoBehaviour
     }
     IEnumerator SpawnBonusRoutine()
     {
+        
         while (player.Health > 0)
         {
+            int k = Random.Range(0, Bonusprefabs.Length );
+            Debug.Log("random sayý: " + k);
             Vector3 position = new Vector3(Random.Range(-player.xVal, player.xVal), player.yVal + 2, 0);
-            Instantiate(TripleShotBonusPrefab, position, Quaternion.identity);
+            Instantiate(Bonusprefabs[k], position, Quaternion.identity);
             yield return new WaitForSeconds(5.0f);
         }
     }
