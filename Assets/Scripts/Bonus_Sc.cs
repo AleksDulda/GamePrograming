@@ -48,6 +48,7 @@ public class Bonus_Sc : MonoBehaviour
                     break;
 
                 case 2:
+                    player.ActivateKorumaBonus();
                     Debug.Log("Bonus koruma");
                     Destroy(this.gameObject);
                     break;

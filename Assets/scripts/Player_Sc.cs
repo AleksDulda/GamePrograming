@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Analytics;
 
 public class Player_Sc : MonoBehaviour
 {
@@ -22,10 +23,15 @@ public class Player_Sc : MonoBehaviour
     bool TripleShotActive = false;
     [SerializeField]
     bool SpeedBonusActive = false;
+    [SerializeField]
+    public int score = 0;
+    public bool isShieldActive = false;
+
+    UI_Manager_Sc UI_Manager_Sc;
     // Start is called before the first frame update
     void Start()
     {
-        
+        UI_Manager_Sc = GameObject.FindObjectOfType<UI_Manager_Sc>();
     }
 
     // Update is called once per frame
@@ -33,7 +39,7 @@ public class Player_Sc : MonoBehaviour
     {
         Movment();
         Ateset(); //ates etme fonksiyonu
-        if(firecooldown <= Normalcooldown && firecooldown > 0) 
+        if (firecooldown <= Normalcooldown && firecooldown > 0)
         {
             firecooldown -= Time.deltaTime;
             vur = false;
@@ -42,7 +48,8 @@ public class Player_Sc : MonoBehaviour
         {
             vur = true;
         }
-      
+        UI_Manager_Sc.UpdateScore(score);
+
     }
 
     private void Ateset()
@@ -52,14 +59,14 @@ public class Player_Sc : MonoBehaviour
             if (TripleShotActive)
             {
                 Instantiate(TripleLaser, firePoint.position, Quaternion.identity).transform.parent = LazerCon.transform;
-                
+
             }
             else
             {
                 Instantiate(laser, firePoint.position, Quaternion.identity).transform.parent = LazerCon.transform;
             }
-           
-            
+
+
             firecooldown = Normalcooldown;
         }
 
@@ -69,21 +76,23 @@ public class Player_Sc : MonoBehaviour
     {
 
 
-        transform.Translate(new Vector3(Input.GetAxis("Horizontal") * speed* Time.deltaTime, Input.GetAxis("Vertical") * speed* Time.deltaTime, 0));// oluþturduðumuz kübün hareket mekanýzmasý 
-        transform.position = new Vector3 (Mathf.Clamp(transform.position.x, -xVal, xVal), Mathf.Clamp(transform.position.y, -yVal, yVal),0);
+        transform.Translate(new Vector3(Input.GetAxis("Horizontal") * speed * Time.deltaTime, Input.GetAxis("Vertical") * speed * Time.deltaTime, 0));// oluþturduðumuz kübün hareket mekanýzmasý 
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, -xVal, xVal), Mathf.Clamp(transform.position.y, -yVal, yVal), 0);
 
-      
+
     }
 
     public void Damage()
     {
-        Health--;
+        Health -= 1;
         if (Health <= 0)
         {
             Debug.Log("GAME OVER");
+            UI_Manager_Sc.UpdateLives(Health);
             Destroy(gameObject);
-            
+
         }
+        UI_Manager_Sc.UpdateLives(Health);
 
     }
 
@@ -101,11 +110,11 @@ public class Player_Sc : MonoBehaviour
         else if (tripleshotCoroutine != null)
         {
             StopCoroutine(tripleshotCoroutine);
-            TripleShotActive= false;
+            TripleShotActive = false;
             tripleshotCoroutine = StartCoroutine(DeactivateTripleShotAfterDelay(5f)); ;
         }
     }
-    
+
     private IEnumerator DeactivateTripleShotAfterDelay(float delay)
     {
         // belirtilen süre kadar bekle
@@ -117,7 +126,7 @@ public class Player_Sc : MonoBehaviour
     Coroutine speedCoroutine;
     public void ActivateSpeedBonus()
     {
-        if(SpeedBonusActive == false)
+        if (SpeedBonusActive == false)
         {
             SpeedBonusActive = true;  // Activate Triple Shot
 
@@ -126,13 +135,13 @@ public class Player_Sc : MonoBehaviour
             //  5sn beklemesi için coroutine baþlat
             speedCoroutine = StartCoroutine(DeactivateSpeedBonusAfterDelay(5f));
         }
-        else if(speedCoroutine!=null)
+        else if (speedCoroutine != null)
         {
             StopCoroutine(speedCoroutine);
-            SpeedBonusActive=false;
+            SpeedBonusActive = false;
             speedCoroutine = StartCoroutine(DeactivateSpeedBonusAfterDelay(5f)); ;
         }
-       
+
     }
     private IEnumerator DeactivateSpeedBonusAfterDelay(float delay)
     {
@@ -142,6 +151,17 @@ public class Player_Sc : MonoBehaviour
         // Deactivate Triple Shot
         SpeedBonusActive = false;
         speed = speed / speedMultiplier;
-        speedCoroutine=null;
+        speedCoroutine = null;
+    }
+
+    Coroutine shieldCoroutine;
+
+    public void ActivateKorumaBonus()
+    {
+        if (isShieldActive == false)
+        {
+            isShieldActive = true;  // Activate Triple Shot
+
+        }
     }
 }

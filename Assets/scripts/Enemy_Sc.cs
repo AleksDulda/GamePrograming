@@ -27,19 +27,29 @@ public class Enemy_Sc : MonoBehaviour
             transform.position = new Vector3(randomX, (player.yVal+1), 0);
         }
         
+        
     }
     void OnTriggerEnter2D (Collider2D other) //temasa giren
     {
         if(other.tag == "Player")
         {
-            player.Damage();
-            Destroy(gameObject);//player'i yok et
+            if (player.isShieldActive)
+            {
+                player.isShieldActive = false;
+                Destroy(gameObject);
+            }
+            else{
+                player.Damage();
+                Destroy(gameObject);//player'i yok et
+            }
         }
         else if(other.tag == "Lazer")
         {
             
             Destroy(other.gameObject);//lazeri yok et
             Destroy(gameObject);// enemyi yok et
+            player.score += 10;
+            
 
 
         }
