@@ -29,9 +29,16 @@ public class Player_Sc : MonoBehaviour
 
     UI_Manager_Sc UI_Manager_Sc;
     // Start is called before the first frame update
+    Animator anim;
+
     void Start()
     {
         UI_Manager_Sc = GameObject.FindObjectOfType<UI_Manager_Sc>();
+        anim = GetComponent<Animator>();
+        if (anim == null)
+        {
+            Debug.LogError("Animator not found!");
+        }
     }
 
     // Update is called once per frame
@@ -85,6 +92,7 @@ public class Player_Sc : MonoBehaviour
     public void Damage()
     {
         Health -= 1;
+        anim.SetInteger("Health", Health);
         if (Health <= 0)
         {
             Debug.Log("GAME OVER");

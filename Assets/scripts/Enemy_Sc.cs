@@ -9,11 +9,22 @@ public class Enemy_Sc : MonoBehaviour
     public float speed=3f; //hareket süresi
     [SerializeField]
     private Player_Sc player; //Kalýtým alýndý
+
+    Animator anim;
+
    
     void Start()
     {
         player=GameObject.FindObjectOfType<Player_Sc>();
-        
+        if (player == null)
+        {
+            Debug.LogError("Player not found!");
+        }
+        anim = GetComponent<Animator>();
+        if (anim == null)
+        {
+            Debug.LogError("Animator not found!");
+        }
     }
 
     // Update is called once per frame
@@ -36,21 +47,27 @@ public class Enemy_Sc : MonoBehaviour
             if (player.isShieldActive)
             {
                 player.isShieldActive = false;
-                Destroy(gameObject);
+                
+                anim.SetTrigger("OnEnemyDeath");
+                speed = 0;
+                Destroy(gameObject,1.0f);// enemyi yok et
             }
             else{
                 player.Damage();
-                Destroy(gameObject);//player'i yok et
+                anim.SetTrigger("OnEnemyDeath");
+                speed = 0;
+                Destroy(gameObject,1.0f);// enemyi yok et
             }
         }
         else if(other.tag == "Lazer")
         {
             
             Destroy(other.gameObject);//lazeri yok et
-            Destroy(gameObject);// enemyi yok et
-            player.score += 10;
+            anim.SetTrigger("OnEnemyDeath");
+            speed = 0;
             
-
+            Destroy(gameObject, 1.0f);// enemyi yok et
+            player.score += 10;
 
         }
     }
