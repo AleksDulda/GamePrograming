@@ -11,8 +11,13 @@ public class Enemy_Sc : MonoBehaviour
     private Player_Sc player; //Kalýtým alýndý
 
     Animator anim;
+    //AudioSource audioSource;
+    //[SerializeField]
+    //AudioClip explosionenemy;
+    SoundManager_Sc soundManager;
 
-   
+
+
     void Start()
     {
         player=GameObject.FindObjectOfType<Player_Sc>();
@@ -24,6 +29,11 @@ public class Enemy_Sc : MonoBehaviour
         if (anim == null)
         {
             Debug.LogError("Animator not found!");
+        }
+        soundManager = GameObject.FindObjectOfType<SoundManager_Sc>();
+        if (soundManager == null)
+        {
+            Debug.LogError("SoundManager_Sc not found!");
         }
     }
 
@@ -50,12 +60,14 @@ public class Enemy_Sc : MonoBehaviour
                 
                 anim.SetTrigger("OnEnemyDeath");
                 speed = 0;
+                soundManager.audioSourceExplosion.Play();
                 Destroy(gameObject,1.0f);// enemyi yok et
             }
             else{
                 player.Damage();
                 anim.SetTrigger("OnEnemyDeath");
                 speed = 0;
+                soundManager.audioSourceExplosion.Play();
                 Destroy(gameObject,1.0f);// enemyi yok et
             }
         }
@@ -65,7 +77,7 @@ public class Enemy_Sc : MonoBehaviour
             Destroy(other.gameObject);//lazeri yok et
             anim.SetTrigger("OnEnemyDeath");
             speed = 0;
-            
+            soundManager.audioSourceExplosion.Play();
             Destroy(gameObject, 1.0f);// enemyi yok et
             player.score += 10;
 

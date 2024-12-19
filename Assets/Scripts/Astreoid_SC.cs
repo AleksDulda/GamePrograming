@@ -14,6 +14,10 @@ public class Astreoid_SC : MonoBehaviour
     private Player_Sc player; // Kalýtým alýndý
 
     private Animator anim;
+    [SerializeField]
+
+    SoundManager_Sc soundManager;
+
 
     // Start is called before the first frame update
     void Start()
@@ -30,6 +34,9 @@ public class Astreoid_SC : MonoBehaviour
         {
             Debug.LogError("Animator not found!");
         }
+        soundManager = GameObject.FindObjectOfType<SoundManager_Sc>();
+    
+
     }
 
     // Update is called once per frame
@@ -57,7 +64,7 @@ public class Astreoid_SC : MonoBehaviour
             {
                 player.Damage();
             }
-
+            soundManager.audioSourceExplosion.Play();
             anim.SetTrigger("IsTouch");
             speed = 0;
             Destroy(gameObject, 1.0f); // enemy'i yok et
@@ -67,6 +74,7 @@ public class Astreoid_SC : MonoBehaviour
             Destroy(other.gameObject); // lazeri yok et
             anim.SetTrigger("IsTouch");
             speed = 0;
+            soundManager.audioSourceExplosion.Play();
             Destroy(gameObject, 1.0f); // enemy'i yok et
             player.score += 10;
         }

@@ -28,16 +28,27 @@ public class Player_Sc : MonoBehaviour
     public bool isShieldActive = false;
 
     UI_Manager_Sc UI_Manager_Sc;
-    // Start is called before the first frame update
     Animator anim;
+
+
+   SoundManager_Sc SoundManager_Sc;
 
     void Start()
     {
         UI_Manager_Sc = GameObject.FindObjectOfType<UI_Manager_Sc>();
+        if(UI_Manager_Sc == null)
+        {
+            Debug.LogError("UI_Manager_Sc not found!");
+        }
         anim = GetComponent<Animator>();
         if (anim == null)
         {
             Debug.LogError("Animator not found!");
+        }
+        SoundManager_Sc = GameObject.FindObjectOfType<SoundManager_Sc>();
+        if (SoundManager_Sc == null)
+        {
+            Debug.LogError("SoundManager_Sc not found!");
         }
     }
 
@@ -63,6 +74,8 @@ public class Player_Sc : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Space) && vur)
         {
+
+
             if (TripleShotActive)
             {
                 Instantiate(TripleLaser, firePoint.position, Quaternion.identity).transform.parent = LazerCon.transform;
@@ -72,7 +85,7 @@ public class Player_Sc : MonoBehaviour
             {
                 Instantiate(laser, firePoint.position, Quaternion.identity).transform.parent = LazerCon.transform;
             }
-
+            SoundManager_Sc.audioSourceLaser.Play();
 
             firecooldown = Normalcooldown;
         }

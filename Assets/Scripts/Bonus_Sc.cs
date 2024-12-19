@@ -11,12 +11,22 @@ public class Bonus_Sc : MonoBehaviour
 
     [SerializeField]
     int BonusId;
-
+    SoundManager_Sc soundManager;   
 
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindObjectOfType<Player_Sc>();
+        if (player == null)
+        {
+            Debug.LogError("Player not found!");
+        }
+
+        soundManager = GameObject.FindObjectOfType<SoundManager_Sc>();
+        if (soundManager == null)
+        {
+            Debug.LogError("SoundManager_Sc not found!");
+        }
     }
 
     // Update is called once per frame
@@ -32,9 +42,11 @@ public class Bonus_Sc : MonoBehaviour
     {
         if (other.tag == "Player")
         {
+            soundManager.audioSourceBonus.Play();
 
             switch (BonusId)
             {
+
                 case 0:
                     player.ActivateTripleShot();
                     Destroy(this.gameObject);
@@ -56,7 +68,9 @@ public class Bonus_Sc : MonoBehaviour
                 default:
                     Debug.Log("Tanýmlanmamýþ Bonus");
                     break;
+                
             }
+            
 
         }
     }
